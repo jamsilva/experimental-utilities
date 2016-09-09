@@ -67,11 +67,11 @@ struct SharedGlobalData
 		private: \
 			static void construct() \
 			{ \
-				new (&data.mem) T args; \
+				new (data.mem) T args; \
 			} \
 	} name##_initializer_; \
 	\
-	static T& name = reinterpret_cast<T&>(name##_Initializer_::data.mem)
+	static T& name = *reinterpret_cast<T*>(name##_Initializer_::data.mem)
 
 #define SHARED_GLOBAL_DEF(name) \
 	name##_Initializer_::Data name##_Initializer_::data
